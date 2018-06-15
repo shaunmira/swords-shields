@@ -5042,7 +5042,8 @@ bitmap_9 = BitmapImage(data=BITMAP_9)
 
 class Tetrahedron:
     global canvas
-    _counter = -1
+    counter = -1
+    instance_number = []
     POSX = [200, 500, 800]
     POSY = [450, 450, 450]
     theta1 = 270
@@ -5052,17 +5053,18 @@ class Tetrahedron:
     
     
     def __init__(self):
-        Tetrahedron._counter = Tetrahedron._counter + 1
-        self.x0 = self.POSX[Tetrahedron._counter]
-        self.y0 = self.POSY[Tetrahedron._counter]
-        self.x1 = self.POSX[Tetrahedron._counter]+(self.side*(cos(radians(self.theta1))))
-        self.y1 = self.POSY[Tetrahedron._counter]+(self.side*(sin(radians(self.theta1))))
-        self.x2 = self.POSX[Tetrahedron._counter]+(self.side*(cos(radians(self.theta2))))
-        self.y2 = self.POSY[Tetrahedron._counter]+(self.side*(sin(radians(self.theta2))))
-        self.x3 = self.POSX[Tetrahedron._counter]+(self.side*(cos(radians(self.theta3))))
-        self.y3 = self.POSY[Tetrahedron._counter]+(self.side*(sin(radians(self.theta3))))
+        Tetrahedron.counter = Tetrahedron.counter + 1
+        Tetrahedron.instance_number.append(self)
+        self.x0 = self.POSX[Tetrahedron.counter]
+        self.y0 = self.POSY[Tetrahedron.counter]
+        self.x1 = self.POSX[Tetrahedron.counter]+(self.side*(cos(radians(self.theta1))))
+        self.y1 = self.POSY[Tetrahedron.counter]+(self.side*(sin(radians(self.theta1))))
+        self.x2 = self.POSX[Tetrahedron.counter]+(self.side*(cos(radians(self.theta2))))
+        self.y2 = self.POSY[Tetrahedron.counter]+(self.side*(sin(radians(self.theta2))))
+        self.x3 = self.POSX[Tetrahedron.counter]+(self.side*(cos(radians(self.theta3))))
+        self.y3 = self.POSY[Tetrahedron.counter]+(self.side*(sin(radians(self.theta3))))
         self.outline = canvas.create_line(self.x0, self.y0, self.x1, self.y1, self.x2, self.y2, self.x3, self.y3, self.x0, self.y0, self.x2, self.y2, self.x3, self.y3, self.x1, self.y1, width=2)
-        
+       
         self.items = ['sword', 'wood', 'iron', ' ']
         self.tetrahedron = []
         
@@ -5076,7 +5078,9 @@ class Tetrahedron:
         print self.missing_item 
         
         canvas.bind('<Left>', self.move)
-        canvas.bind('<Right>', self.move)        
+        canvas.bind('<Right>', self.move)
+        canvas.bind('<Tab>', self.switch_right)
+        canvas.bind('<Shift-Tab>', self.switch_left)
         
         if not self.missing_item == ' ':
             if self.tetrahedron.index(' ') == 0:
@@ -5088,28 +5092,28 @@ class Tetrahedron:
 
         if not self.missing_item == 'wood': 
             if self.tetrahedron.index('wood') == 0:
-                self.wooden_shield_0 = canvas.create_image(self.POSX[Tetrahedron._counter]-36, self.POSY[Tetrahedron._counter]-54, image=bitmap_6)
+                self.wooden_shield_0 = canvas.create_image(self.POSX[Tetrahedron.counter]-36, self.POSY[Tetrahedron.counter]-54, image=bitmap_6)
             elif self.tetrahedron.index('wood') == 1:
-                self.wooden_shield_1 = canvas.create_image(self.POSX[Tetrahedron._counter], self.POSY[Tetrahedron._counter]+16, image=bitmap_4)
+                self.wooden_shield_1 = canvas.create_image(self.POSX[Tetrahedron.counter], self.POSY[Tetrahedron.counter]+16, image=bitmap_4)
             elif self.tetrahedron.index('wood') == 2:
-                self.wooden_shield_2 = canvas.create_image(self.POSX[Tetrahedron._counter]+31, self.POSY[Tetrahedron._counter]-54, image=bitmap_5)
+                self.wooden_shield_2 = canvas.create_image(self.POSX[Tetrahedron.counter]+31, self.POSY[Tetrahedron.counter]-54, image=bitmap_5)
 
         if not self.missing_item == 'iron':
             if self.tetrahedron.index('iron') == 0:
-                self.iron_shield_0 = canvas.create_image(self.POSX[Tetrahedron._counter]-43, self.POSY[Tetrahedron._counter]-33, image=bitmap_9)
+                self.iron_shield_0 = canvas.create_image(self.POSX[Tetrahedron.counter]-43, self.POSY[Tetrahedron.counter]-33, image=bitmap_9)
             elif self.tetrahedron.index('iron') == 1:
-                self.iron_shield_1 = canvas.create_image(self.POSX[Tetrahedron._counter], self.POSY[Tetrahedron._counter]+38, image=bitmap_7)
+                self.iron_shield_1 = canvas.create_image(self.POSX[Tetrahedron.counter], self.POSY[Tetrahedron.counter]+38, image=bitmap_7)
             elif self.tetrahedron.index('iron') == 2:
-                self.iron_shield_2 = canvas.create_image(self.POSX[Tetrahedron._counter]+33, self.POSY[Tetrahedron._counter]-23, image=bitmap_8)
+                self.iron_shield_2 = canvas.create_image(self.POSX[Tetrahedron.counter]+33, self.POSY[Tetrahedron.counter]-23, image=bitmap_8)
     
         if not self.missing_item == 'sword':
             if self.tetrahedron.index('sword') == 0:
-                self.sword_0 = canvas.create_image(self.POSX[Tetrahedron._counter]-57, self.POSY[Tetrahedron._counter]-11, image=bitmap_3)
+                self.sword_0 = canvas.create_image(self.POSX[Tetrahedron.counter]-57, self.POSY[Tetrahedron.counter]-11, image=bitmap_3)
             elif self.tetrahedron.index('sword') == 1:
-                self.sword_1 = canvas.create_image(self.POSX[Tetrahedron._counter]+25, self.POSY[Tetrahedron._counter]+40, image=bitmap_1)
+                self.sword_1 = canvas.create_image(self.POSX[Tetrahedron.counter]+25, self.POSY[Tetrahedron.counter]+40, image=bitmap_1)
             elif self.tetrahedron.index('sword') == 2:
-                self.sword_2 = canvas.create_image(self.POSX[Tetrahedron._counter]+34, self.POSY[Tetrahedron._counter]-48, image=bitmap_2)        
-        
+                self.sword_2 = canvas.create_image(self.POSX[Tetrahedron.counter]+34, self.POSY[Tetrahedron.counter]-48, image=bitmap_2)        
+
     def angle_adjust(self):
         if self.theta1 <= 0:
             self.theta1 = self.theta1 + 360
@@ -5124,100 +5128,114 @@ class Tetrahedron:
         if self.theta3 >= 360:
             self.theta3 = self.theta3 - 360
 
+    def switch_right(self, event=None):
+            Tetrahedron.instance_number.append(Tetrahedron.instance_number.pop(0))
+            Tetrahedron.POSX.append(Tetrahedron.POSX.pop(0))
+            Tetrahedron.POSY.append(Tetrahedron.POSY.pop(0))
+
+    def switch_left(self, event=None):
+            Tetrahedron.instance_number.insert(0, Tetrahedron.instance_number.pop())
+            Tetrahedron.POSX.insert(0, Tetrahedron.POSX.pop())
+            Tetrahedron.POSY.insert(0, Tetrahedron.POSY.pop())
+        
     def move(self, event=None):
+        n = 0
+        Tetrahedron.counter = n
         if event.keysym == 'Left':
-            self.turned = 'Left'
-            self.d = -1
-            self.tetrahedron.insert(0, self.tetrahedron.pop())
+            Tetrahedron.instance_number[n].turned = 'Left'
+            Tetrahedron.instance_number[n].d = -1
+            Tetrahedron.instance_number[n].tetrahedron.insert(0, Tetrahedron.instance_number[n].tetrahedron.pop())
         if event.keysym == 'Right':
-            self.turned = 'Right'
-            self.d = 1
-            self.tetrahedron.append(self.tetrahedron.pop(0))
+            Tetrahedron.instance_number[n].turned = 'Right'
+            Tetrahedron.instance_number[n].d = 1
+            Tetrahedron.instance_number[n].tetrahedron.append(Tetrahedron.instance_number[n].tetrahedron.pop(0))
         
         canvas.unbind('<Left>')
         canvas.unbind('<Right>')
         
         for i in range(120): 
-            self.theta1 = self.theta1 + self.d
-            self.theta2 = self.theta2 + self.d
-            self.theta3 = self.theta3 + self.d
-            self.x1 = self.POSX[Tetrahedron._counter]+(self.side*(cos(radians(self.theta1))))
-            self.y1 = self.POSY[Tetrahedron._counter]+(self.side*(sin(radians(self.theta1))))
-            self.x2 = self.POSX[Tetrahedron._counter]+(self.side*(cos(radians(self.theta2))))
-            self.y2 = self.POSY[Tetrahedron._counter]+(self.side*(sin(radians(self.theta2))))
-            self.x3 = self.POSX[Tetrahedron._counter]+(self.side*(cos(radians(self.theta3))))
-            self.y3 = self.POSY[Tetrahedron._counter]+(self.side*(sin(radians(self.theta3))))
-            canvas.coords(self.outline, self.x0, self.y0, self.x1, self.y1, self.x2, self.y2, self.x3, self.y3, self.x0, self.y0, self.x2, self.y2, self.x3, self.y3, self.x1, self.y1)
+            Tetrahedron.theta1 = Tetrahedron.theta1 + Tetrahedron.instance_number[n].d
+            Tetrahedron.theta2 = Tetrahedron.theta2 + Tetrahedron.instance_number[n].d
+            Tetrahedron.theta3 = Tetrahedron.theta3 + Tetrahedron.instance_number[n].d
+            Tetrahedron.x0 = Tetrahedron.instance_number[n].POSX[Tetrahedron.counter]
+            Tetrahedron.y0 = Tetrahedron.instance_number[n].POSY[Tetrahedron.counter]
+            Tetrahedron.x1 = Tetrahedron.instance_number[n].POSX[Tetrahedron.counter]+(Tetrahedron.side*(cos(radians(Tetrahedron.theta1))))
+            Tetrahedron.y1 = Tetrahedron.instance_number[n].POSY[Tetrahedron.counter]+(Tetrahedron.side*(sin(radians(Tetrahedron.theta1))))
+            Tetrahedron.x2 = Tetrahedron.instance_number[n].POSX[Tetrahedron.counter]+(Tetrahedron.side*(cos(radians(Tetrahedron.theta2))))
+            Tetrahedron.y2 = Tetrahedron.instance_number[n].POSY[Tetrahedron.counter]+(Tetrahedron.side*(sin(radians(Tetrahedron.theta2))))
+            Tetrahedron.x3 = Tetrahedron.instance_number[n].POSX[Tetrahedron.counter]+(Tetrahedron.side*(cos(radians(Tetrahedron.theta3))))
+            Tetrahedron.y3 = Tetrahedron.instance_number[n].POSY[Tetrahedron.counter]+(Tetrahedron.side*(sin(radians(Tetrahedron.theta3))))
+            canvas.coords(Tetrahedron.instance_number[n].outline, Tetrahedron.x0, Tetrahedron.y0, Tetrahedron.x1, Tetrahedron.y1, Tetrahedron.x2, Tetrahedron.y2, Tetrahedron.x3, Tetrahedron.y3, Tetrahedron.x0, Tetrahedron.y0, Tetrahedron.x2, Tetrahedron.y2, Tetrahedron.x3, Tetrahedron.y3, Tetrahedron.x1, Tetrahedron.y1)
             canvas.update()
-        self.angle_adjust()
+        Tetrahedron.instance_number[n].angle_adjust()
     
-        if not self.missing_item == ' ':
-            if self.tetrahedron.index(' ') == 0:
-                self.blank = canvas.create_image(1, 1, image=bitmap_0)
-            elif self.tetrahedron.index(' ') == 1:
-                self.blank = canvas.create_image(1, 1, image=bitmap_0)
-            elif self.tetrahedron.index(' ') == 2:
-                self.blank = canvas.create_image(1, 1, image=bitmap_0)
+        if not Tetrahedron.instance_number[n].missing_item == ' ':
+            if Tetrahedron.instance_number[n].tetrahedron.index(' ') == 0:
+                Tetrahedron.instance_number[n].blank = canvas.create_image(1, 1, image=bitmap_0)
+            elif Tetrahedron.instance_number[n].tetrahedron.index(' ') == 1:
+                Tetrahedron.instance_number[n].blank = canvas.create_image(1, 1, image=bitmap_0)
+            elif Tetrahedron.instance_number[n].tetrahedron.index(' ') == 2:
+                Tetrahedron.instance_number[n].blank = canvas.create_image(1, 1, image=bitmap_0)
     
-        if not self.missing_item == 'iron':
-            if self.tetrahedron.index('iron') == 0:
-                self.iron_shield_0 = canvas.create_image(self.POSX[Tetrahedron._counter]-43, self.POSY[Tetrahedron._counter]-33, image=bitmap_9)
-                if self.turned == 'Left':
-                    canvas.delete(self.iron_shield_2)
-                elif self.turned == 'Right':
-                    canvas.delete(self.iron_shield_1)
-            elif self.tetrahedron.index('iron') == 1:
-                self.iron_shield_1 = canvas.create_image(self.POSX[Tetrahedron._counter], self.POSY[Tetrahedron._counter]+38, image=bitmap_7)
-                if self.turned == 'Left':
-                    canvas.delete(self.iron_shield_0)
-                elif self.turned == 'Right':
-                    canvas.delete(self.iron_shield_2)
-            elif self.tetrahedron.index('iron') == 2:
-                self.iron_shield_2 = canvas.create_image(self.POSX[Tetrahedron._counter]+33, self.POSY[Tetrahedron._counter]-23, image=bitmap_8)
-                if self.turned == 'Left':
-                    canvas.delete(self.iron_shield_1)
-                elif self.turned == 'Right':
-                    canvas.delete(self.iron_shield_0)
+        if not Tetrahedron.instance_number[n].missing_item == 'iron':
+            if Tetrahedron.instance_number[n].tetrahedron.index('iron') == 0:
+                Tetrahedron.instance_number[n].iron_shield_0 = canvas.create_image(Tetrahedron.instance_number[n].POSX[Tetrahedron.counter]-43, Tetrahedron.instance_number[n].POSY[Tetrahedron.counter]-33, image=bitmap_9)
+                if Tetrahedron.instance_number[n].turned == 'Left':
+                    canvas.delete(Tetrahedron.instance_number[n].iron_shield_2)
+                elif Tetrahedron.instance_number[n].turned == 'Right':
+                    canvas.delete(Tetrahedron.instance_number[n].iron_shield_1)
+            elif Tetrahedron.instance_number[n].tetrahedron.index('iron') == 1:
+                Tetrahedron.instance_number[n].iron_shield_1 = canvas.create_image(Tetrahedron.instance_number[n].POSX[Tetrahedron.counter], Tetrahedron.instance_number[n].POSY[Tetrahedron.counter]+38, image=bitmap_7)
+                if Tetrahedron.instance_number[n].turned == 'Left':
+                    canvas.delete(Tetrahedron.instance_number[n].iron_shield_0)
+                elif Tetrahedron.instance_number[n].turned == 'Right':
+                    canvas.delete(Tetrahedron.instance_number[n].iron_shield_2)
+            elif Tetrahedron.instance_number[n].tetrahedron.index('iron') == 2:
+                Tetrahedron.instance_number[n].iron_shield_2 = canvas.create_image(Tetrahedron.instance_number[n].POSX[Tetrahedron.counter]+33, Tetrahedron.instance_number[n].POSY[Tetrahedron.counter]-23, image=bitmap_8)
+                if Tetrahedron.instance_number[n].turned == 'Left':
+                    canvas.delete(Tetrahedron.instance_number[n].iron_shield_1)
+                elif Tetrahedron.instance_number[n].turned == 'Right':
+                    canvas.delete(Tetrahedron.instance_number[n].iron_shield_0)
    
-        if not self.missing_item == 'wood':
-            if self.tetrahedron.index('wood') == 0:
-                self.wooden_shield_0 = canvas.create_image(self.POSX[Tetrahedron._counter]-36, self.POSY[Tetrahedron._counter]-54, image=bitmap_6)
-                if self.turned == 'Left':
-                    canvas.delete(self.wooden_shield_2)
-                elif self.turned == 'Right':
-                    canvas.delete(self.wooden_shield_1)
-            elif self.tetrahedron.index('wood') == 1:
-                self.wooden_shield_1 = canvas.create_image(self.POSX[Tetrahedron._counter], self.POSY[Tetrahedron._counter]+16, image=bitmap_4)
-                if self.turned == 'Left':
-                    canvas.delete(self.wooden_shield_0)
-                elif self.turned == 'Right':
-                    canvas.delete(self.wooden_shield_2)
-            elif self.tetrahedron.index('wood') == 2:
-                self.wooden_shield_2 = canvas.create_image(self.POSX[Tetrahedron._counter]+31, self.POSY[Tetrahedron._counter]-54, image=bitmap_5)
-                if self.turned == 'Left':
-                    canvas.delete(self.wooden_shield_1)
-                elif self.turned == 'Right':
-                    canvas.delete(self.wooden_shield_0)
+        if not Tetrahedron.instance_number[n].missing_item == 'wood':
+            if Tetrahedron.instance_number[n].tetrahedron.index('wood') == 0:
+                Tetrahedron.instance_number[n].wooden_shield_0 = canvas.create_image(Tetrahedron.instance_number[n].POSX[Tetrahedron.counter]-36, Tetrahedron.instance_number[n].POSY[Tetrahedron.counter]-54, image=bitmap_6)
+                if Tetrahedron.instance_number[n].turned == 'Left':
+                    canvas.delete(Tetrahedron.instance_number[n].wooden_shield_2)
+                elif Tetrahedron.instance_number[n].turned == 'Right':
+                    canvas.delete(Tetrahedron.instance_number[n].wooden_shield_1)
+            elif Tetrahedron.instance_number[n].tetrahedron.index('wood') == 1:
+                Tetrahedron.instance_number[n].wooden_shield_1 = canvas.create_image(Tetrahedron.instance_number[n].POSX[Tetrahedron.counter], Tetrahedron.instance_number[n].POSY[Tetrahedron.counter]+16, image=bitmap_4)
+                if Tetrahedron.instance_number[n].turned == 'Left':
+                    canvas.delete(Tetrahedron.instance_number[n].wooden_shield_0)
+                elif Tetrahedron.instance_number[n].turned == 'Right':
+                    canvas.delete(Tetrahedron.instance_number[n].wooden_shield_2)
+            elif Tetrahedron.instance_number[n].tetrahedron.index('wood') == 2:
+                Tetrahedron.instance_number[n].wooden_shield_2 = canvas.create_image(Tetrahedron.instance_number[n].POSX[Tetrahedron.counter]+31, Tetrahedron.instance_number[n].POSY[Tetrahedron.counter]-54, image=bitmap_5)
+                if Tetrahedron.instance_number[n].turned == 'Left':
+                    canvas.delete(Tetrahedron.instance_number[n].wooden_shield_1)
+                elif Tetrahedron.instance_number[n].turned == 'Right':
+                    canvas.delete(Tetrahedron.instance_number[n].wooden_shield_0)
     
-        if not self.missing_item == 'sword':  
-            if self.tetrahedron.index('sword') == 0:
-                self.sword_0 = canvas.create_image(self.POSX[Tetrahedron._counter]-57, self.POSY[Tetrahedron._counter]-11, image=bitmap_3)
-                if self.turned == 'Left':
-                    canvas.delete(self.sword_2)
-                elif self.turned == 'Right':
-                    canvas.delete(self.sword_1)
-            elif self.tetrahedron.index('sword') == 1:
-                self.sword_1 = canvas.create_image(self.POSX[Tetrahedron._counter]+25, self.POSY[Tetrahedron._counter]+40, image=bitmap_1)
-                if self.turned == 'Left':
-                    canvas.delete(self.sword_0)
-                elif self.turned == 'Right':
-                    canvas.delete(self.sword_2)
-            elif self.tetrahedron.index('sword') == 2:
-                self.sword_2 = canvas.create_image(self.POSX[Tetrahedron._counter]+34, self.POSY[Tetrahedron._counter]-48, image=bitmap_2)
-                if self.turned == 'Left':
-                    canvas.delete(self.sword_1)
-                elif self.turned == 'Right':
-                    canvas.delete(self.sword_0)
+        if not Tetrahedron.instance_number[n].missing_item == 'sword':  
+            if Tetrahedron.instance_number[n].tetrahedron.index('sword') == 0:
+                Tetrahedron.instance_number[n].sword_0 = canvas.create_image(Tetrahedron.instance_number[n].POSX[Tetrahedron.counter]-57, Tetrahedron.instance_number[n].POSY[Tetrahedron.counter]-11, image=bitmap_3)
+                if Tetrahedron.instance_number[n].turned == 'Left':
+                    canvas.delete(Tetrahedron.instance_number[n].sword_2)
+                elif Tetrahedron.instance_number[n].turned == 'Right':
+                    canvas.delete(Tetrahedron.instance_number[n].sword_1)
+            elif Tetrahedron.instance_number[n].tetrahedron.index('sword') == 1:
+                Tetrahedron.instance_number[n].sword_1 = canvas.create_image(Tetrahedron.instance_number[n].POSX[Tetrahedron.counter]+25, Tetrahedron.instance_number[n].POSY[Tetrahedron.counter]+40, image=bitmap_1)
+                if Tetrahedron.instance_number[n].turned == 'Left':
+                    canvas.delete(Tetrahedron.instance_number[n].sword_0)
+                elif Tetrahedron.instance_number[n].turned == 'Right':
+                    canvas.delete(Tetrahedron.instance_number[n].sword_2)
+            elif Tetrahedron.instance_number[n].tetrahedron.index('sword') == 2:
+                Tetrahedron.instance_number[n].sword_2 = canvas.create_image(Tetrahedron.instance_number[n].POSX[Tetrahedron.counter]+34, Tetrahedron.instance_number[n].POSY[Tetrahedron.counter]-48, image=bitmap_2)
+                if Tetrahedron.instance_number[n].turned == 'Left':
+                    canvas.delete(Tetrahedron.instance_number[n].sword_1)
+                elif Tetrahedron.instance_number[n].turned == 'Right':
+                    canvas.delete(Tetrahedron.instance_number[n].sword_0)
            
         canvas.update()
         canvas.bind('<Left>', self.move)
